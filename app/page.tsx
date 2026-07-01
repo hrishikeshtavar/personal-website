@@ -131,7 +131,7 @@ export default function Home() {
 
                 <motion.p
                   {...fadeUp(0.58)}
-                  className="text-balance text-sm leading-relaxed text-[var(--ink-muted)] sm:text-base"
+                  className="text-balance text-sm leading-relaxed text-[var(--ink)] sm:text-base"
                 >
                   I build AI, IoT and web systems for governments, startups
                   and enterprise clients across the UK, India and the Middle
