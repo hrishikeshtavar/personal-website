@@ -129,7 +129,7 @@ export default function Home() {
                 </h1>
               </div>
 
-              <div className="col-span-12 flex flex-col gap-5 rounded-2xl border border-[var(--panel-line)] bg-[var(--panel)]/70 p-5 backdrop-blur-md sm:p-6 lg:col-span-4">
+              <div className="col-span-12 flex flex-col gap-5 rounded-2xl border border-[var(--panel-line)] bg-[var(--void)]/90 p-5 backdrop-blur-lg sm:p-6 lg:col-span-4">
                 <motion.div
                   {...fadeUp(0.5)}
                   className="font-mono-label flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-[var(--ink-muted)] sm:text-sm"
