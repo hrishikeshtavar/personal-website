@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Mail, Phone, Link2, Code2, ArrowUpRight } from "lucide-react";
+import { Mail, Link2, Code2, ArrowUpRight } from "lucide-react";
 import { useState } from "react";
 import { WordsPullUp } from "@/components/ui/words-pull-up";
 
@@ -23,16 +23,10 @@ const CONTACT_LINKS = [
     href: "mailto:hrishikesh.tavar@gmail.com",
   },
   {
-    icon: Phone,
-    label: "Phone",
-    value: "+44 7522 966058",
-    href: "tel:+447522966058",
-  },
-  {
     icon: Link2,
     label: "LinkedIn",
-    value: "Connect on LinkedIn",
-    href: "#", // TODO: add real LinkedIn URL
+    value: "linkedin.com/in/hrishikesh-tavar",
+    href: "https://www.linkedin.com/in/hrishikesh-tavar",
   },
   {
     icon: Code2,
@@ -52,16 +46,37 @@ function fadeUp(delay = 0) {
 
 export default function Home() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const subject = encodeURIComponent(
-      `Portfolio enquiry from ${form.name || "website visitor"}`
-    );
-    const body = encodeURIComponent(
-      `${form.message}\n\n— ${form.name} (${form.email})`
-    );
-    window.location.href = `mailto:hrishikesh.tavar@gmail.com?subject=${subject}&body=${body}`;
+    setStatus("loading");
+    setErrorMessage("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Something went wrong.");
+      }
+
+      setStatus("success");
+      setForm({ name: "", email: "", message: "" });
+    } catch (err) {
+      setStatus("error");
+      setErrorMessage(
+        err instanceof Error ? err.message : "Something went wrong."
+      );
+    }
   }
 
   return (
@@ -131,7 +146,7 @@ export default function Home() {
 
                 <motion.p
                   {...fadeUp(0.58)}
-                  className="text-balance text-sm leading-relaxed text-[var(--ink)] sm:text-base"
+                  className="text-balance text-sm leading-relaxed text-[var(--ink-muted)] sm:text-base"
                 >
                   I build AI, IoT and web systems for governments, startups
                   and enterprise clients across the UK, India and the Middle
@@ -285,10 +300,21 @@ export default function Home() {
               </label>
               <button
                 type="submit"
-                className="mt-2 inline-flex w-fit items-center gap-2 rounded-full bg-[var(--teal)] px-6 py-2.5 text-sm font-medium text-[var(--void)] transition-opacity hover:opacity-90"
+                disabled={status === "loading"}
+                className="mt-2 inline-flex w-fit items-center gap-2 rounded-full bg-[var(--teal)] px-6 py-2.5 text-sm font-medium text-[var(--void)] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Send message
+                {status === "loading" ? "Sending…" : "Send message"}
               </button>
+              {status === "success" && (
+                <p className="text-sm text-[var(--teal)]">
+                  Thanks — your message is on its way.
+                </p>
+              )}
+              {status === "error" && (
+                <p className="text-sm text-red-400">
+                  {errorMessage || "Something went wrong. Please try again."}
+                </p>
+              )}
             </form>
           </div>
         </section>
