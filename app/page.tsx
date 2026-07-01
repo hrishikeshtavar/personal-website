@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Mail, Phone, Link2, Code2, ArrowUpRight } from "lucide-react";
 import { useState } from "react";
+import { WordsPullUp } from "@/components/ui/words-pull-up";
 
 const PILLARS = ["Product Owner", "AI/ML Engineer", "Data Analyst", "Mentor"];
 
@@ -65,84 +66,103 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[var(--void)]">
-      {/* Backdrop: real field/deployment photos, scrimmed for legibility */}
-      <div className="absolute inset-0">
-        <Image
-          src="/images/backdrop.png"
-          alt=""
-          fill
-          priority
-          className="object-cover opacity-[0.28]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[var(--void)] via-[var(--void)]/85 to-[var(--void)]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--void)] via-[var(--void)]/40 to-transparent" />
-      </div>
+      {/* Hero: full-height, framed, bottom-anchored */}
+      <section className="relative h-screen w-full px-3 pt-3 sm:px-4 sm:pt-4">
+        <div className="relative h-full w-full overflow-hidden rounded-2xl border border-[var(--panel-line)] md:rounded-[2rem]">
+          {/* Backdrop: background video + noise texture */}
+          <div className="absolute inset-0 bg-[var(--void)]">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 h-full w-full object-cover"
+              src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4"
+            />
+            <div
+              className="noise-overlay pointer-events-none absolute inset-0 opacity-[0.15] mix-blend-overlay"
+              aria-hidden="true"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[var(--void)]/30 via-transparent to-[var(--void)]/85" />
+          </div>
 
-      <div className="relative z-10 flex min-h-screen flex-col">
-        {/* Top mark */}
-        <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 pt-10 sm:px-10">
-          <motion.span
-            {...fadeUp(0)}
-            className="font-mono-label text-xs tracking-[0.2em] text-[var(--ink-muted)]"
-          >
-            HT / 2026
-          </motion.span>
-          <motion.span
-            {...fadeUp(0.05)}
-            className="font-mono-label text-xs tracking-[0.2em] text-[var(--ink-muted)]"
-          >
-            UK · INDIA · MIDDLE EAST
-          </motion.span>
-        </header>
+          {/* Top mark */}
+          <header className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-6 pt-6 sm:px-10 sm:pt-8">
+            <motion.span
+              {...fadeUp(0)}
+              className="font-mono-label text-xs tracking-[0.2em] text-[var(--ink-muted)]"
+            >
+              HT / 2026
+            </motion.span>
+            <motion.span
+              {...fadeUp(0.05)}
+              className="font-mono-label text-xs tracking-[0.2em] text-[var(--ink-muted)]"
+            >
+              UK · INDIA · MIDDLE EAST
+            </motion.span>
+          </header>
 
-        {/* Hero */}
-        <section className="mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-6 py-20 sm:px-10">
-          <motion.p
-            {...fadeUp(0.1)}
-            className="font-mono-label text-xs uppercase tracking-[0.25em] text-[var(--teal)]"
-          >
-            Cross-border technology practice
-          </motion.p>
+          {/* Bottom-anchored content */}
+          <div className="absolute inset-x-0 bottom-0 z-10 px-6 pb-8 sm:px-10 sm:pb-10">
+            <div className="grid grid-cols-12 items-end gap-6">
+              <div className="col-span-12 lg:col-span-8">
+                <p className="font-mono-label mb-3 text-xs uppercase tracking-[0.25em] text-[var(--teal)]">
+                  Cross-border technology practice
+                </p>
+                <h1 className="font-display text-balance text-[13vw] font-semibold leading-[0.92] tracking-tight text-[var(--ink)] sm:text-[10vw] lg:text-[7.5vw]">
+                  <WordsPullUp text="Hrishikesh Tavar" delayOffset={0.1} />
+                </h1>
+              </div>
 
-          <motion.h1
-            {...fadeUp(0.18)}
-            className="font-display mt-5 text-balance text-5xl font-semibold leading-[1.02] tracking-tight sm:text-7xl lg:text-8xl"
-          >
-            Hrishikesh
-            <br />
-            Tavar
-          </motion.h1>
+              <div className="col-span-12 flex flex-col gap-5 lg:col-span-4">
+                <motion.div
+                  {...fadeUp(0.5)}
+                  className="font-mono-label flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-[var(--ink-muted)] sm:text-sm"
+                >
+                  {PILLARS.map((p, i) => (
+                    <span key={p} className="flex items-center gap-2">
+                      <span className="text-[var(--ink)]">{p}</span>
+                      {i < PILLARS.length - 1 && (
+                        <span className="text-[var(--gold)]">·</span>
+                      )}
+                    </span>
+                  ))}
+                </motion.div>
 
-          <motion.div
-            {...fadeUp(0.28)}
-            className="font-mono-label mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-[var(--ink-muted)] sm:text-base"
-          >
-            {PILLARS.map((p, i) => (
-              <span key={p} className="flex items-center gap-3">
-                <span className="text-[var(--ink)]">{p}</span>
-                {i < PILLARS.length - 1 && (
-                  <span className="text-[var(--gold)]">·</span>
-                )}
-              </span>
-            ))}
-          </motion.div>
+                <motion.p
+                  {...fadeUp(0.58)}
+                  className="text-balance text-sm leading-relaxed text-[var(--ink-muted)] sm:text-base"
+                >
+                  I build AI, IoT and web systems for governments, startups
+                  and enterprise clients across the UK, India and the Middle
+                  East — work that has to hold up in the field, not just in a
+                  demo.
+                </motion.p>
 
-          <motion.p
-            {...fadeUp(0.36)}
-            className="mt-8 max-w-2xl text-balance text-base leading-relaxed text-[var(--ink-muted)] sm:text-lg"
-          >
-            I build AI, IoT and web systems for governments, startups and
-            enterprise clients across the UK, India and the Middle East —
-            work that has to hold up in the field, not just in a demo.
-            Currently pairing that practice with an MSc in Business Analytics
-            at Warwick.
-          </motion.p>
+                <motion.div
+                  {...fadeUp(0.66)}
+                  className="flex flex-wrap items-center gap-4"
+                >
+                  <a
+                    href="#contact"
+                    className="group inline-flex items-center gap-2 self-start rounded-full bg-[var(--ink)] py-1 pl-5 pr-1 text-sm font-medium text-[var(--void)] transition-all hover:gap-3"
+                  >
+                    Get in touch
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--teal)] transition-transform group-hover:scale-110">
+                      <ArrowUpRight className="h-4 w-4 text-[var(--void)]" />
+                    </span>
+                  </a>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-          {/* Stats */}
-          <motion.div
-            {...fadeUp(0.46)}
-            className="mt-14 grid grid-cols-2 gap-x-8 gap-y-8 border-t border-[var(--panel-line)] pt-8 sm:grid-cols-4"
-          >
+      <div className="relative z-10 flex flex-col">
+        {/* Stats */}
+        <section className="mx-auto w-full max-w-6xl px-6 py-16 sm:px-10">
+          <div className="grid grid-cols-2 gap-x-8 gap-y-8 border-t border-[var(--panel-line)] pt-8 sm:grid-cols-4">
             {STATS.map((s) => (
               <div key={s.label}>
                 <div className="font-display text-3xl font-semibold text-[var(--gold)] sm:text-4xl">
@@ -153,30 +173,24 @@ export default function Home() {
                 </div>
               </div>
             ))}
-          </motion.div>
-
-          {/* CTAs */}
-          <motion.div
-            {...fadeUp(0.54)}
-            className="mt-12 flex flex-wrap items-center gap-4"
-          >
-            <a
-              href="#contact"
-              className="group inline-flex items-center gap-2 rounded-full bg-[var(--ink)] px-6 py-3 text-sm font-medium text-[var(--void)] transition-colors hover:bg-[var(--teal)]"
-            >
-              Get in touch
-              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
-            <a
-              href="mailto:hrishikesh.tavar@gmail.com"
-              className="font-mono-label text-sm text-[var(--ink-muted)] underline decoration-[var(--panel-line)] underline-offset-4 transition-colors hover:text-[var(--ink)]"
-            >
-              hrishikesh.tavar@gmail.com
-            </a>
-          </motion.div>
+          </div>
         </section>
 
-        {/* Coming soon strip */}
+        {/* Field proof — contained, framed photo strip */}
+        <section className="mx-auto w-full max-w-4xl px-6 pb-16 sm:px-10">
+          <div className="overflow-hidden rounded-2xl border border-[var(--panel-line)]">
+            <Image
+              src="/images/backdrop.png"
+              alt="Field deployments across Google HQ London, the Indian Army, the Maharashtra Forest Department, and client sites in the UK and India"
+              width={1920}
+              height={1080}
+              className="h-auto w-full object-cover"
+            />
+          </div>
+          <p className="font-mono-label mt-3 text-center text-xs tracking-[0.1em] text-[var(--ink-muted)]">
+            Google HQ · Indian Army · Maharashtra Forest Dept. · client sites — UK &amp; India
+          </p>
+        </section>
         <div className="border-t border-[var(--panel-line)] bg-[var(--panel)]/60 backdrop-blur-sm">
           <div className="mx-auto flex w-full max-w-6xl flex-col items-start justify-between gap-2 px-6 py-4 text-xs text-[var(--ink-muted)] sm:flex-row sm:items-center sm:px-10">
             <span className="font-mono-label tracking-[0.15em]">
