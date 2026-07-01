@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --void: #0a0e1a;
+  --panel: #111729;
+  --panel-line: #23293e;
+  --ink: #f4f2ea;
+  --ink-muted: #9aa2b8;
+  --teal: #56c2ab;
+  --gold: #cc9f56;
+
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--ink);
+  background: var(--void);
+  font-family: var(--font-body);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .font-display {
+    font-family: var(--font-display);
+  }
+  .font-mono-label {
+    font-family: var(--font-mono);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
