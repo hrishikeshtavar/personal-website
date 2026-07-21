@@ -9,9 +9,19 @@ import { cn } from "@/lib/utils";
  * palette — the library's default is a rainbow neon look that doesn't match
  * the rest of the site.
  *
- * Lives in the Hero as its sole background (the video that used to be there
- * was removed). Rendered as an absolutely positioned layer by its parent —
- * give the parent `relative` and size it explicitly.
+ * Mounted once at the root (app/layout.tsx) as a `fixed` full-viewport
+ * layer behind every section, so it's visible consistently as you scroll
+ * the whole site rather than confined to one section's box. For it to
+ * actually show through, anything painted on top needs to be transparent
+ * where there's no real content — see the removed `bg-[var(--void)]` on
+ * `<main>` and the hero's panel wrapper, both of which used to sit as
+ * opaque layers directly on top of this and would otherwise hide it
+ * completely outside the hero.
+ *
+ * Opacity is intentionally low (20%) — it now sits behind text-heavy
+ * sections like Skills and Experience, not just the hero, so it needs to
+ * stay a subtle wash rather than something that competes with reading the
+ * page.
  *
  * Known limitation: the colours below are tuned for the dark theme and
  * don't yet react to the light/dark toggle — dark is the default theme, so
@@ -73,7 +83,7 @@ export function CursorTrail({ className }: { className?: string }) {
       ref={canvasRef}
       aria-hidden="true"
       className={cn(
-        "pointer-events-none absolute inset-0 h-full w-full opacity-60",
+        "pointer-events-none fixed inset-0 -z-10 opacity-20",
         className
       )}
     />

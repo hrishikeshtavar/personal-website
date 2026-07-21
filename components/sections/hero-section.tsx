@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 import { WordsPullUp } from "@/components/ui/words-pull-up";
 import { LiquidGlass, LiquidGlassButton } from "@/components/ui/liquid-glass";
-import { CursorTrail } from "@/components/ui/cursor-trail";
 import { fadeUpOnMount } from "@/lib/motion";
 import { PILLARS } from "@/lib/site-content";
 
@@ -45,9 +44,7 @@ export function HeroSection() {
       id="home"
       className="relative h-screen w-full px-3 pt-3 sm:px-4 sm:pt-4"
     >
-      <div className="relative h-full w-full overflow-hidden rounded-2xl border border-[var(--panel-line)] bg-[var(--void)] md:rounded-[2rem]">
-        <CursorTrail />
-
+      <div className="relative h-full w-full overflow-hidden rounded-2xl border border-[var(--panel-line)] md:rounded-[2rem]">
         <div className="relative z-10 flex h-full w-full items-center overflow-y-auto px-6 py-28 sm:px-10">
           <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-12 lg:auto-rows-[46px]">
             {/* Name tile — top-left, medium height */}

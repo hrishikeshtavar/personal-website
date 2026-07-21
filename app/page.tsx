@@ -16,10 +16,17 @@ import { SiteFooter } from "@/components/sections/site-footer";
  *
  * Section order matches the nav order in site-nav.tsx (Projects, Skills,
  * Certifications, Experience, Contact) — keep the two in sync.
+ *
+ * No background color here deliberately: `bg-[var(--void)]` used to live on
+ * <main>, but that's an opaque layer that would sit on top of the single
+ * global CursorTrail (mounted once in app/layout.tsx, fixed behind
+ * everything) and hide it outside the hero. body's own bg-void (see
+ * globals.css) is still the fallback wherever the canvas is disabled
+ * (touch devices, prefers-reduced-motion) or hasn't loaded yet.
  */
 export default function Home() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[var(--void)]">
+    <main className="relative min-h-screen overflow-hidden">
       <HeroSection />
 
       <div className="relative z-10 flex flex-col">

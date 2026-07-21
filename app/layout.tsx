@@ -3,6 +3,7 @@ import { Bricolage_Grotesque, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LiquidGlassFilterDefs } from "@/components/ui/liquid-glass";
+import { CursorTrail } from "@/components/ui/cursor-trail";
 import { SiteNav } from "@/components/sections/site-nav";
 
 // Each font is loaded via next/font/google and exposed as a CSS variable
@@ -52,6 +53,10 @@ export default function RootLayout({
           {/* Rendered once here — every liquid-glass surface on the site
               references this by id, so it must not be duplicated. */}
           <LiquidGlassFilterDefs />
+          {/* Fixed, viewport-sized, sits behind everything (-z-10) — see
+              the doc comment in cursor-trail.tsx for why this moved here
+              instead of living inside HeroSection. */}
+          <CursorTrail />
           <SiteNav />
           {children}
         </ThemeProvider>
