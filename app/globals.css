@@ -10,7 +10,7 @@
 :root {
   /* Colours: void (page background) → panel (card surfaces) → panel-line
      (borders), ink/ink-muted (text), teal/gold (accents — teal for links
-     and CTAs, gold for highlighted numbers/badges). */
+     and CTAs, gold for highlighted numbers/badges). Dark is the default. */
   --void: #0a0e1a;
   --panel: #111729;
   --panel-line: #23293e;
@@ -19,6 +19,14 @@
   --teal: #56c2ab;
   --gold: #cc9f56;
 
+  /* Glass-tile tokens used by components/ui/liquid-glass.tsx. Tinted to
+     match whichever theme is active — white-tinted glass on the dark theme
+     reads as "frosted glass"; the same tint on the light theme would be
+     nearly invisible, so it flips to a dark tint instead. */
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-highlight: rgba(255, 255, 255, 0.14);
+
   /* Fallback stacks for the next/font variables set in app/layout.tsx —
      used if a font fails to load. */
   --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
@@ -26,14 +34,40 @@
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
 }
 
+/* Light theme — toggled via the .light class on <html> (see ThemeToggle /
+   next-themes in app/layout.tsx). Every token above gets an override; there
+   should be nothing in the site styled with a raw hex value instead of one
+   of these variables, or it won't retheme. */
+.light {
+  --void: #f6f4ee;
+  --panel: #ffffff;
+  --panel-line: #e5e2d6;
+  --ink: #15181f;
+  --ink-muted: #64604f;
+  --teal: #2f9c86;
+  --gold: #a97d2e;
+
+  --glass-bg: rgba(21, 24, 31, 0.04);
+  --glass-border: rgba(21, 24, 31, 0.08);
+  --glass-highlight: rgba(255, 255, 255, 0.6);
+}
+
 * {
   scroll-behavior: smooth;
+}
+
+html {
+  color-scheme: dark;
+}
+html.light {
+  color-scheme: light;
 }
 
 body {
   color: var(--ink);
   background: var(--void);
   font-family: var(--font-body);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 @layer utilities {
@@ -48,12 +82,6 @@ body {
   /* Small uppercase/tracked labels (nav marks, section eyebrows, badges). */
   .font-mono-label {
     font-family: var(--font-mono);
-  }
-  /* Subtle grain texture laid over the hero video via mix-blend-overlay,
-     generated inline as an SVG data URI so it needs no separate asset. */
-  .noise-overlay {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-repeat: repeat;
   }
 }
 

@@ -1,108 +1,174 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import {
+  MapPin,
+  Gamepad2,
+  Quote as QuoteIcon,
+  ArrowUpRight,
+  Cpu,
+} from "lucide-react";
 import { WordsPullUp } from "@/components/ui/words-pull-up";
+import { LiquidGlass, LiquidGlassButton } from "@/components/ui/liquid-glass";
+import { CursorTrail } from "@/components/ui/cursor-trail";
 import { fadeUpOnMount } from "@/lib/motion";
 import { PILLARS } from "@/lib/site-content";
 
 /**
- * Full-height hero: looping background video, the name treatment, the role
- * pillars, and a single CTA into the Contact section.
+ * Full-height hero: a bento grid of six liquid-glass tiles (name, photo,
+ * bio, interest, quote, location) over a flat background with the
+ * cursor-reactive tube effect as the sole ambient motion — no video, no
+ * gradient overlay.
  *
- * Content is pinned to the bottom of the frame (rather than centered) so it
- * reads well across viewport heights without needing separate mobile logic.
+ * Grid is a plain 3-column layout (lg and up), tiles in DOM order — Name,
+ * Photo, Bio on row one, Interest, Quote, Location on row two. No explicit
+ * row/column spanning: row one just reads as "tall" because the Photo
+ * tile's min-height is the largest in that row, and CSS Grid's default
+ * align-items: stretch makes every item in the row match it. That's what
+ * actually produces the reference's look — not a spanning trick.
+ *
+ * Two tiles are placeholders pending real content from Hrishi:
+ *  - Photo tile: no headshot has been provided yet.
+ *  - Quote tile: no personal quote/motto has been provided yet.
+ *
+ * `id="home"` is the anchor target for the persistent SiteNav's logo link.
  */
 export function HeroSection() {
   return (
-    <section className="relative h-screen w-full px-3 pt-3 sm:px-4 sm:pt-4">
-      <div className="relative h-full w-full overflow-hidden rounded-2xl border border-[var(--panel-line)] md:rounded-[2rem]">
-        {/* Backdrop: background video + noise texture + darkening gradient */}
-        <div className="absolute inset-0 bg-[var(--void)]">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 h-full w-full object-cover"
-            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4"
-          />
-          <div
-            className="noise-overlay pointer-events-none absolute inset-0 opacity-[0.15] mix-blend-overlay"
-            aria-hidden="true"
-          />
-          {/* Fades the video toward the void colour so the bottom content panel stays legible */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[var(--void)]/30 via-transparent to-[var(--void)]/85" />
-        </div>
+    <section
+      id="home"
+      className="relative h-screen w-full px-3 pt-3 sm:px-4 sm:pt-4"
+    >
+      <div className="relative h-full w-full overflow-hidden rounded-2xl border border-[var(--panel-line)] bg-[var(--void)] md:rounded-[2rem]">
+        <CursorTrail />
 
-        {/* Top mark: initials/year on the left, region on the right */}
-        <header className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-6 pt-6 sm:px-10 sm:pt-8">
-          <motion.span
-            {...fadeUpOnMount(0)}
-            className="font-mono-label text-xs tracking-[0.2em] text-[var(--ink-muted)]"
-          >
-            HT / 2026
-          </motion.span>
-          <motion.span
-            {...fadeUpOnMount(0.05)}
-            className="font-mono-label text-xs tracking-[0.2em] text-[var(--ink-muted)]"
-          >
-            UK · INDIA · MIDDLE EAST
-          </motion.span>
-        </header>
-
-        {/* Bottom-anchored content: headline on the left, intro card on the right */}
-        <div className="absolute inset-x-0 bottom-0 z-10 px-6 pb-8 sm:px-10 sm:pb-10">
-          <div className="grid grid-cols-12 items-end gap-6">
-            <div className="col-span-12 lg:col-span-8">
-              <p className="font-mono-label mb-3 text-xs uppercase tracking-[0.25em] text-[var(--teal)]">
-                Cross-border technology practice
-              </p>
-              <h1 className="font-display text-balance text-[13vw] font-semibold leading-[0.92] tracking-tight text-[var(--ink)] sm:text-[10vw] lg:text-[7.5vw]">
-                <WordsPullUp text="Hrishikesh Tavar" delayOffset={0.1} />
-              </h1>
-            </div>
-
-            <div className="col-span-12 flex flex-col gap-5 rounded-2xl border border-[var(--panel-line)] bg-[var(--void)]/90 p-5 backdrop-blur-lg sm:p-6 lg:col-span-4">
-              <motion.div
-                {...fadeUpOnMount(0.5)}
-                className="font-mono-label flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-[var(--ink-muted)] sm:text-sm"
+        <div className="relative z-10 flex h-full w-full items-center px-6 py-28 sm:px-10">
+          <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {/* Name tile */}
+            <motion.div {...fadeUpOnMount(0)}>
+              <LiquidGlass
+                className="h-full min-h-[220px]"
+                contentClassName="flex h-full flex-col justify-end gap-3 p-6 sm:p-8"
               >
-                {PILLARS.map((p, i) => (
-                  <span key={p} className="flex items-center gap-2">
-                    <span className="text-[var(--ink)]">{p}</span>
-                    {i < PILLARS.length - 1 && (
-                      <span className="text-[var(--gold)]">·</span>
-                    )}
+                <p className="flex items-center gap-2 font-mono-label text-xs uppercase tracking-[0.25em] text-[var(--teal)]">
+                  <span
+                    className="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--teal)]"
+                    aria-hidden="true"
+                  />
+                  Cross-border technology practice
+                </p>
+                <h1 className="font-display text-balance text-4xl font-semibold leading-[1.02] tracking-tight text-[var(--ink)] sm:text-5xl">
+                  <WordsPullUp text="Hrishikesh Tavar" delayOffset={0.1} />
+                </h1>
+                <div
+                  className="mt-1 h-0.5 w-12 bg-[var(--teal)]"
+                  aria-hidden="true"
+                />
+              </LiquidGlass>
+            </motion.div>
+
+            {/* Photo tile — tallest content in row one, so it drives the
+                row's stretched height; placeholder until a headshot exists */}
+            <motion.div {...fadeUpOnMount(0.08)}>
+              <LiquidGlass
+                className="h-full min-h-[380px] border-dashed"
+                contentClassName="flex h-full items-center justify-center p-4"
+              >
+                <div className="flex flex-col items-center gap-1 text-center text-[var(--ink-muted)]">
+                  <span className="font-mono-label text-[10px] uppercase tracking-[0.15em]">
+                    Photo placeholder
                   </span>
-                ))}
-              </motion.div>
-
-              <motion.p
-                {...fadeUpOnMount(0.58)}
-                className="text-balance text-sm leading-relaxed text-[var(--ink-muted)] sm:text-base"
-              >
-                I build AI, IoT and web systems for governments, startups
-                and enterprise clients across the UK, India and the Middle
-                East — work that has to hold up in the field, not just in a
-                demo.
-              </motion.p>
-
-              <motion.div
-                {...fadeUpOnMount(0.66)}
-                className="flex flex-wrap items-center gap-4"
-              >
-                <a
-                  href="#contact"
-                  className="group inline-flex items-center gap-2 self-start rounded-full bg-[var(--ink)] py-1 pl-5 pr-1 text-sm font-medium text-[var(--void)] transition-all hover:gap-3"
-                >
-                  Get in touch
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--teal)] transition-transform group-hover:scale-110">
-                    <ArrowUpRight className="h-4 w-4 text-[var(--void)]" />
+                  <span className="text-xs">
+                    Send a headshot to fill this in
                   </span>
-                </a>
-              </motion.div>
-            </div>
+                </div>
+              </LiquidGlass>
+            </motion.div>
+
+            {/* Bio tile */}
+            <motion.div {...fadeUpOnMount(0.16)}>
+              <LiquidGlass
+                className="h-full min-h-[220px]"
+                contentClassName="flex h-full flex-col justify-start gap-3 p-6 sm:p-8"
+              >
+                <span className="flex items-center gap-2">
+                  <Cpu className="h-4 w-4 text-[var(--teal)]" />
+                  <span className="font-mono-label text-[10px] uppercase tracking-[0.2em] text-[var(--ink-muted)]">
+                    What I do
+                  </span>
+                </span>
+                <p className="text-sm leading-relaxed text-[var(--ink-muted)] sm:text-base">
+                  I build AI, IoT and web systems for governments, startups
+                  and enterprise clients across the UK, India and the Middle
+                  East — work that has to hold up in the field, not just in
+                  a demo.
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {PILLARS.map((p) => (
+                    <span
+                      key={p}
+                      className="font-mono-label rounded-full border border-[var(--glass-border)] px-2.5 py-0.5 text-[10px] tracking-wide text-[var(--ink-muted)]"
+                    >
+                      {p}
+                    </span>
+                  ))}
+                </div>
+                <LiquidGlassButton asChild size="sm" className="mt-1">
+                  <a href="#contact" className="group">
+                    Get in touch
+                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </a>
+                </LiquidGlassButton>
+              </LiquidGlass>
+            </motion.div>
+
+            {/* Interest tile — cooperative gaming, per the interests on
+                file; swap if a different one should be featured */}
+            <motion.div {...fadeUpOnMount(0.24)}>
+              <LiquidGlass
+                className="h-full min-h-[160px]"
+                contentClassName="flex h-full flex-col justify-center gap-2 p-6"
+              >
+                <Gamepad2 className="h-4 w-4 text-[var(--teal)]" />
+                <span className="font-mono-label text-[10px] uppercase tracking-[0.15em] text-[var(--ink-muted)]">
+                  Off the clock
+                </span>
+                <p className="text-sm text-[var(--ink)]">
+                  Cooperative gaming — strategy and teamwork away from the
+                  keyboard.
+                </p>
+              </LiquidGlass>
+            </motion.div>
+
+            {/* Quote tile — placeholder, no personal quote on file yet */}
+            <motion.div {...fadeUpOnMount(0.3)}>
+              <LiquidGlass
+                className="h-full min-h-[160px] border-dashed"
+                contentClassName="flex h-full flex-col justify-center gap-2 p-6"
+              >
+                <QuoteIcon className="h-4 w-4 text-[var(--gold)]" />
+                <p className="text-balance text-sm italic text-[var(--ink-muted)]">
+                  Your quote goes here — send me the words and I&rsquo;ll
+                  swap this in.
+                </p>
+              </LiquidGlass>
+            </motion.div>
+
+            {/* Location tile */}
+            <motion.div {...fadeUpOnMount(0.36)}>
+              <LiquidGlass
+                className="h-full min-h-[160px]"
+                contentClassName="flex h-full flex-col justify-center gap-2 p-6"
+              >
+                <MapPin className="h-4 w-4 text-[var(--gold)]" />
+                <span className="font-mono-label text-[10px] uppercase tracking-[0.15em] text-[var(--ink-muted)]">
+                  Location
+                </span>
+                <span className="text-sm text-[var(--ink)] sm:text-base">
+                  UK · India · Middle East
+                </span>
+              </LiquidGlass>
+            </motion.div>
           </div>
         </div>
       </div>

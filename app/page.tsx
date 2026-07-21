@@ -2,6 +2,7 @@ import { HeroSection } from "@/components/sections/hero-section";
 import { StatsSection } from "@/components/sections/stats-section";
 import { FieldProofSection } from "@/components/sections/field-proof-section";
 import { StatusBanner } from "@/components/sections/status-banner";
+import { SkillsSection } from "@/components/sections/skills-section";
 import { ProjectsSection } from "@/components/sections/projects-section";
 import { ContactSection } from "@/components/sections/contact-section";
 import { SiteFooter } from "@/components/sections/site-footer";
@@ -20,6 +21,7 @@ export default function Home() {
         <StatsSection />
         <FieldProofSection />
         <StatusBanner />
+        <SkillsSection />
         <ProjectsSection />
         <ContactSection />
         <SiteFooter />

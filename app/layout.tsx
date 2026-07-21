@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
+import { LiquidGlassFilterDefs } from "@/components/ui/liquid-glass";
+import { SiteNav } from "@/components/sections/site-nav";
 
 // Each font is loaded via next/font/google and exposed as a CSS variable
 // (--font-display, --font-body, --font-mono), which app/globals.css maps to
@@ -36,11 +39,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    // suppressHydrationWarning: next-themes sets the theme class (dark or
+    // light) on <html> via an inline script that runs before React
+    // hydrates, so the class next-themes applies won't match the
+    // server-rendered markup — that mismatch is expected and this tells
+    // React not to warn about it.
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${display.variable} ${body.variable} ${mono.variable} antialiased`}
       >
-        {children}
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          {/* Rendered once here — every liquid-glass surface on the site
+              references this by id, so it must not be duplicated. */}
+          <LiquidGlassFilterDefs />
+          <SiteNav />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
