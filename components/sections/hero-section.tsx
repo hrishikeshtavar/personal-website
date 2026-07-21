@@ -20,12 +20,18 @@ import { PILLARS } from "@/lib/site-content";
  * cursor-reactive tube effect as the sole ambient motion — no video, no
  * gradient overlay.
  *
- * Grid is a plain 3-column layout (lg and up), tiles in DOM order — Name,
- * Photo, Bio on row one, Interest, Quote, Location on row two. No explicit
- * row/column spanning: row one just reads as "tall" because the Photo
- * tile's min-height is the largest in that row, and CSS Grid's default
- * align-items: stretch makes every item in the row match it. That's what
- * actually produces the reference's look — not a spanning trick.
+ * The grid (lg and up) is an explicit 12-column layout with each tile given
+ * its own row-span, not a uniform 3-equal-thirds grid — that's what
+ * actually produces an irregular "bento jumble" look instead of a plain
+ * rectangle grid. Row unit is 46px (see lg:auto-rows-[46px]); a tile's
+ * height is span-count × 46px plus the gaps it crosses. Photo is the
+ * tallest (row-span-7), Interest is deliberately taller than Quote/Location
+ * (row-span-5 vs 3) so the bottom of the grid staggers rather than lining
+ * up — mirroring how the reference's Mindset tile runs taller than Quote/
+ * Location because of its nested second image.
+ *
+ * Below lg, all of that is ignored — items just stack in DOM order in a
+ * single (or 2-up) column, since the span/col-start classes are lg:-only.
  *
  * Two tiles are placeholders pending real content from Hrishi:
  *  - Photo tile: no headshot has been provided yet.
@@ -42,10 +48,13 @@ export function HeroSection() {
       <div className="relative h-full w-full overflow-hidden rounded-2xl border border-[var(--panel-line)] bg-[var(--void)] md:rounded-[2rem]">
         <CursorTrail />
 
-        <div className="relative z-10 flex h-full w-full items-center px-6 py-28 sm:px-10">
-          <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Name tile */}
-            <motion.div {...fadeUpOnMount(0)}>
+        <div className="relative z-10 flex h-full w-full items-center overflow-y-auto px-6 py-28 sm:px-10">
+          <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-12 lg:auto-rows-[46px]">
+            {/* Name tile — top-left, medium height */}
+            <motion.div
+              {...fadeUpOnMount(0)}
+              className="lg:col-span-4 lg:col-start-1 lg:row-span-4 lg:row-start-1"
+            >
               <LiquidGlass
                 className="h-full min-h-[220px]"
                 contentClassName="flex h-full flex-col justify-end gap-3 p-6 sm:p-8"
@@ -67,9 +76,12 @@ export function HeroSection() {
               </LiquidGlass>
             </motion.div>
 
-            {/* Photo tile — tallest content in row one, so it drives the
-                row's stretched height; placeholder until a headshot exists */}
-            <motion.div {...fadeUpOnMount(0.08)}>
+            {/* Photo tile — tallest tile in the grid, center column;
+                placeholder until a headshot exists */}
+            <motion.div
+              {...fadeUpOnMount(0.08)}
+              className="lg:col-span-4 lg:col-start-5 lg:row-span-7 lg:row-start-1"
+            >
               <LiquidGlass
                 className="h-full min-h-[380px] border-dashed"
                 contentClassName="flex h-full items-center justify-center p-4"
@@ -85,8 +97,11 @@ export function HeroSection() {
               </LiquidGlass>
             </motion.div>
 
-            {/* Bio tile */}
-            <motion.div {...fadeUpOnMount(0.16)}>
+            {/* Bio tile — top-right, same height as Name */}
+            <motion.div
+              {...fadeUpOnMount(0.16)}
+              className="lg:col-span-4 lg:col-start-9 lg:row-span-4 lg:row-start-1"
+            >
               <LiquidGlass
                 className="h-full min-h-[220px]"
                 contentClassName="flex h-full flex-col justify-start gap-3 p-6 sm:p-8"
@@ -122,9 +137,14 @@ export function HeroSection() {
               </LiquidGlass>
             </motion.div>
 
-            {/* Interest tile — cooperative gaming, per the interests on
-                file; swap if a different one should be featured */}
-            <motion.div {...fadeUpOnMount(0.24)}>
+            {/* Interest tile — bottom-left, deliberately taller than Quote/
+                Location so the grid staggers instead of lining up evenly.
+                Cooperative gaming, per the interests on file; swap if a
+                different one should be featured */}
+            <motion.div
+              {...fadeUpOnMount(0.24)}
+              className="lg:col-span-4 lg:col-start-1 lg:row-span-5 lg:row-start-5"
+            >
               <LiquidGlass
                 className="h-full min-h-[160px]"
                 contentClassName="flex h-full flex-col justify-center gap-2 p-6"
@@ -140,8 +160,12 @@ export function HeroSection() {
               </LiquidGlass>
             </motion.div>
 
-            {/* Quote tile — placeholder, no personal quote on file yet */}
-            <motion.div {...fadeUpOnMount(0.3)}>
+            {/* Quote tile — bottom-right, upper half; placeholder, no
+                personal quote on file yet */}
+            <motion.div
+              {...fadeUpOnMount(0.3)}
+              className="lg:col-span-4 lg:col-start-9 lg:row-span-3 lg:row-start-5"
+            >
               <LiquidGlass
                 className="h-full min-h-[160px] border-dashed"
                 contentClassName="flex h-full flex-col justify-center gap-2 p-6"
@@ -154,8 +178,11 @@ export function HeroSection() {
               </LiquidGlass>
             </motion.div>
 
-            {/* Location tile */}
-            <motion.div {...fadeUpOnMount(0.36)}>
+            {/* Location tile — bottom-right, lower half */}
+            <motion.div
+              {...fadeUpOnMount(0.36)}
+              className="lg:col-span-4 lg:col-start-9 lg:row-span-3 lg:row-start-8"
+            >
               <LiquidGlass
                 className="h-full min-h-[160px]"
                 contentClassName="flex h-full flex-col justify-center gap-2 p-6"
