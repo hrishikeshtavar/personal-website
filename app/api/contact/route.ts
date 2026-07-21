@@ -1,6 +1,12 @@
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
 
+/**
+ * POST /api/contact
+ *
+ * Relays the Contact section form (components/sections/contact-section.tsx)
+ * to TO_EMAIL via Resend. Requires RESEND_API_KEY to be set — see .env.example.
+ */
 const TO_EMAIL = "hrishikesh.tavar@zenture.in";
 
 export async function POST(request: Request) {

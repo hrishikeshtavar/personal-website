@@ -2,7 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Design tokens. Referenced throughout the site as Tailwind arbitrary
+ * values, e.g. bg-[var(--void)] or text-[var(--teal)] — this is the single
+ * place to retheme the site.
+ */
 :root {
+  /* Colours: void (page background) → panel (card surfaces) → panel-line
+     (borders), ink/ink-muted (text), teal/gold (accents — teal for links
+     and CTAs, gold for highlighted numbers/badges). */
   --void: #0a0e1a;
   --panel: #111729;
   --panel-line: #23293e;
@@ -11,6 +19,8 @@
   --teal: #56c2ab;
   --gold: #cc9f56;
 
+  /* Fallback stacks for the next/font variables set in app/layout.tsx —
+     used if a font fails to load. */
   --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
@@ -27,15 +37,20 @@ body {
 }
 
 @layer utilities {
+  /* Balanced line-wrapping for headlines (avoids orphaned short last lines). */
   .text-balance {
     text-wrap: balance;
   }
+  /* Headline font — Bricolage Grotesque. Used for h1/h2/large numerals. */
   .font-display {
     font-family: var(--font-display);
   }
+  /* Small uppercase/tracked labels (nav marks, section eyebrows, badges). */
   .font-mono-label {
     font-family: var(--font-mono);
   }
+  /* Subtle grain texture laid over the hero video via mix-blend-overlay,
+     generated inline as an SVG data URI so it needs no separate asset. */
   .noise-overlay {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     background-repeat: repeat;

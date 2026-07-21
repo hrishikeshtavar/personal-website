@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import { Bricolage_Grotesque, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
+// Each font is loaded via next/font/google and exposed as a CSS variable
+// (--font-display, --font-body, --font-mono), which app/globals.css maps to
+// the .font-display / .font-mono-label utility classes used throughout the
+// site. next/font needs network access at build time to fetch these — that
+// works automatically on Vercel, no setup required.
 const display = Bricolage_Grotesque({
   subsets: ["latin"],
   variable: "--font-display",
@@ -18,6 +23,7 @@ const mono = JetBrains_Mono({
   weight: ["400", "500"],
 });
 
+// Page title/description used for the browser tab and link previews (OG/Twitter cards).
 export const metadata: Metadata = {
   title: "Hrishikesh Tavar — Product Owner · AI/ML Engineer · Data Analyst · Mentor",
   description:
