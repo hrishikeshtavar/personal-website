@@ -20,14 +20,14 @@ export type HeroPhoto = {
 
 export const HERO_PHOTOS: HeroPhoto[] = [
   {
-    src: "/images/hero/google-natwest-win.webp",
-    alt: "Hrishikesh with the SecureFlow AI team in front of a screen reading 'The Secure Intelligence Frontier — Winner: SecureFlow AI'.",
-    caption: "SecureFlow AI, winner at Google x NatWest",
-  },
-  {
     src: "/images/hero/google-london-office.webp",
     alt: "Hrishikesh outside the entrance to Google's London office.",
     caption: "Google London",
+  },
+  {
+    src: "/images/hero/google-natwest-win.webp",
+    alt: "Hrishikesh with the SecureFlow AI team in front of a screen reading 'The Secure Intelligence Frontier — Winner: SecureFlow AI'.",
+    caption: "SecureFlow AI, winner at Google x NatWest",
   },
   {
     src: "/images/hero/agentic-workflows-talk.webp",
