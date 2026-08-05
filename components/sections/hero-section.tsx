@@ -9,9 +9,12 @@ import {
   Cpu,
 } from "lucide-react";
 import { WordsPullUp } from "@/components/ui/words-pull-up";
+import { ShaderBackground } from "@/components/ui/silk-shader";
+import { PhotoCarousel } from "@/components/ui/photo-carousel";
 import { LiquidGlass, LiquidGlassButton } from "@/components/ui/liquid-glass";
 import { fadeUpOnMount } from "@/lib/motion";
 import { PILLARS } from "@/lib/site-content";
+import { HERO_PHOTOS } from "@/lib/photos";
 
 /**
  * Full-height hero: a bento grid of six liquid-glass tiles (name, photo,
@@ -45,6 +48,13 @@ export function HeroSection() {
       className="relative h-screen w-full px-3 pt-3 sm:px-4 sm:pt-4"
     >
       <div className="relative h-full w-full overflow-hidden rounded-2xl border border-[var(--panel-line)] md:rounded-[2rem]">
+        {/* Ambient WebGL backdrop, clipped by the rounded container. The
+            scrim above it keeps the glass tiles and hero copy legible —
+            see .hero-shader-scrim in app/globals.css. */}
+        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+          <ShaderBackground className="h-full w-full" />
+          <div className="hero-shader-scrim absolute inset-0" />
+        </div>
         <div className="relative z-10 flex h-full w-full items-center overflow-y-auto px-6 py-28 sm:px-10">
           <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-12 lg:auto-rows-[46px]">
             {/* Name tile — top-left, medium height */}
@@ -73,24 +83,17 @@ export function HeroSection() {
               </LiquidGlass>
             </motion.div>
 
-            {/* Photo tile — tallest tile in the grid, center column;
-                placeholder until a headshot exists */}
+            {/* Photo tile — tallest tile in the grid, center column.
+                Crossfading carousel; frames live in lib/photos.ts */}
             <motion.div
               {...fadeUpOnMount(0.08)}
               className="lg:col-span-4 lg:col-start-5 lg:row-span-7 lg:row-start-1"
             >
               <LiquidGlass
-                className="h-full min-h-[380px] border-dashed"
-                contentClassName="flex h-full items-center justify-center p-4"
+                className="h-full min-h-[380px]"
+                contentClassName="h-full p-0"
               >
-                <div className="flex flex-col items-center gap-1 text-center text-[var(--ink-muted)]">
-                  <span className="font-mono-label text-[10px] uppercase tracking-[0.15em]">
-                    Photo placeholder
-                  </span>
-                  <span className="text-xs">
-                    Send a headshot to fill this in
-                  </span>
-                </div>
+                <PhotoCarousel photos={HERO_PHOTOS} className="rounded-2xl" />
               </LiquidGlass>
             </motion.div>
 

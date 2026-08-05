@@ -93,3 +93,14 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* Hero shader backdrop (components/ui/silk-shader.tsx). The shader ships a
+   fixed dark palette that does not retheme, so the scrim over it has to lift
+   much harder on the light theme to keep hero text and glass tiles legible. */
+.hero-shader-scrim {
+  background: var(--void);
+  opacity: 0.55;
+}
+.light .hero-shader-scrim {
+  opacity: 0.82;
+}
